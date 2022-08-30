@@ -1,0 +1,47 @@
+<div class="modal fade" id="event-modal" tabindex="-1" aria-labelledby="event-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ event_action_url }}" method="POST">
+                {{ event_form.hidden_tag() }}
+                <div class="modal-header bg-warning">
+                    <h4 id="event-modal-label" class="modal-title">Event Details</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="row mb-3">
+                        <div class="col-4">
+                            {{ event_form.date.label(class="form-label") }}
+                            {{ event_form.date(class="form-control") }}
+                        </div>
+                        <div class="col-4">
+                            {{ event_form.start_time.label(class="form-label") }}
+                            {{ event_form.start_time(class="form-control") }}
+                        </div>
+                        <div class="col-4">
+                            {{ event_form.end_time.label(class="form-label") }}
+                            {{ event_form.end_time(class="form-control") }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ event_form.format.label(class="form-label") }}
+                        {{ event_form.format(class="form-select") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ event_form.topic.label(class="form-label") }}
+                        {{ event_form.topic(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ event_form.notes.label(class="form-label") }}
+                        {{ event_form.notes(class="form-control") }}
+                    </div>
+                    {{ event_form.attendance.label(class="form-label") }}
+                    {{ event_form.attendance() }}
+                </div>
+                <div class="modal-footer bg-dark">
+                    {{ event_form.submit_event(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="modal fade" id="locations-modal" tabindex="-1" aria-labelledby="locations-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+    <form action="/user/{{ user.oid }}/block/{{ block.id }}/event/{{ event.id }}/locations/update" method="POST">
+        {{ locations_form.hidden_tag() }}
+        <div class="modal-header bg-warning">
+            <h4 id="attendees-modal-label" class="modal-title">Event Locations</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            {{ locations_form.locations(class="column-list") }}
+        </div>
+        <div class="modal-footer bg-dark">
+            {{ locations_form.submit_locations(class="btn btn-primary") }}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>

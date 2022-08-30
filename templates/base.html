@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='images/favicon.ico')}}" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.css')}}">
+    <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v6.1.2/js/all.js" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/scripts.js')}}"></script>
+    <script>
+        function run_PerformanceEntry() {
+            console.log("PerformanceEntry support…");
+
+            if (performance.mark === undefined) {
+                console.log("The property performance.mark is not supported");
+                return;
+            }
+
+            // Create some performance entries via the mark() method
+            performance.mark("Begin");
+            do_work(50000);
+            performance.mark("End");
+
+            // Use getEntries() to iterate through the each entry
+            const p = performance.getEntries();
+            for (let i=0; i < p.length; i++) {
+                log(`Entry[${i}]`);
+                check_PerformanceEntry(p[i]);
+            }
+            }
+            function check_PerformanceEntry(obj) {
+            const properties = ["name", "entryType", "startTime", "duration"];
+            const methods = ["toJSON"];
+
+            for (let i = 0; i < properties.length; i++) {
+                // check each property
+                const supported = properties[i] in obj;
+                if (supported) {
+                console.log(`…${properties[i]} = ${obj[properties[i]]}`);
+                } else {
+                console.log(`…${properties[i]} = Not supported`);
+                }
+            }
+            for (let i = 0; i < methods.length; i++) {
+                // check each method
+                const supported = typeof obj[methods[i]] === "function";
+                if (supported) {
+                const js = obj[methods[i]]();
+                console.log(`…${methods[i]}() = ${JSON.stringify(js)}`);
+                } else {
+                console.log(`…${methods[i]} = Not supported`);
+                }
+            }
+        }
+    </script>
+    {% block head %}{% endblock %}
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand bg-dark navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="{{url_for('static', filename='images/building-block.svg')}}" alt="" width="30" height="24" class="d-inline-block align-text-top">
+                Building Blocks
+            </a>
+        <div class="" id="navbarSupportedContent">
+        {% if session.get("user") %}
+        {% block navbar %}{% endblock %}
+        {% endif %}
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+        {% if session.get("user") %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-user"></i> {{ user.get("name") }}
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/logout"><i class="fa-solid fa-arrow-right-to-bracket"></i> Sign Out</a></li>
+                </ul>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="{{ auth_url }}"><i class="fa-solid fa-right-from-bracket"></i> Sign In</a>
+            </li>
+        {% endif %}
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    {% if config.get("ENDPOINT") %}
+    {% block body %}{% endblock %}
+    {% endif %}
+</body>
+</html>

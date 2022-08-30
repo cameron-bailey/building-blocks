@@ -1,0 +1,189 @@
+{% extends 'base.html' %}
+{% block head %}{% endblock %}
+{% block navbar %}{% endblock %}
+{% block body %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message|safe }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="container-fluid">
+  <!-- Users -->
+  <div class="mt-3 mb-5">
+      <div class="table-responsive">
+          <table class="table table-bordered caption-top table-sm shadow-sm">
+              <caption><i class="fa-solid fa-user-lock"></i> Users</caption>
+              <thead class="table-secondary">
+                  <tr>
+                      <th>Id</th>
+                      <th>First Name</th>
+                      <th>Last Name</th>
+                      <th>Email</th>
+                      <th>Initials</th>
+                      <th>Type</th>
+                      <th>Is Admin</th>
+                      <th>Date Created</th>
+                      <th>Created By</th>
+                      <th>Date Modified</th>
+                      <th>Modified By</th>
+                      <th>Action</th>
+                  </tr>
+                  </thead>
+              <tbody class="bg-white">
+              {% if users is defined and users|length > 0 %}
+                  {% for user in users %}
+                  <tr>
+                      <td>{{ user.id }}</td>
+                      <td>{{ user.first_name}}</td>
+                      <td>{{ user.last_name }}</td>
+                      <td>{{ user.email }}</td>
+                      <td>{{ user.initials }}</td>
+                      <td>{{ user.type }}</td>
+                      <td>{{ user.is_admin }}</td>
+                      <td>{{ user.date_created }}</td>
+                      <td>{{ user.created_by }}</td>
+                      <td>{{ user.date_modified }}</td>
+                      <td>{{ user.modified_by }}</td>
+                      <td>
+                          <a class="link-naked ms-1 me-1" href="#"><i class="fa-solid fa-pen"></i></a>
+                          <a class="link-naked ms-1 me-1" data-bs-toggle="modal" data-bs-target="#delete-user-modal" onclick="" href="#"><i class="fa-solid fa-trash-can"></i></a>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              {% else %}
+                  <tr>
+                      <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                  </tr>
+              {% endif %}
+              </tbody>
+          </table>
+      </div>
+      <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Options
+          </button>
+          <ul class="dropdown-menu">
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#add-user-modal" href="#">Add New</a></li>
+              <li><a class="dropdown-item" href="#">Import...</a></li>
+          </ul>
+      </div>
+  </div>
+
+  <!-- Roles -->
+  <div class="mb-5">
+    <div class="table-responsive">
+      <table class="table table-bordered caption-top table-sm shadow-sm">
+            <caption><i class="fa-solid fa-shield"></i> Membership Roles</caption>
+            <thead class="table-secondary">
+              <tr>
+                  <th>Id</th>
+                  <th>Title</th>
+                  <th>View Block</th>
+                  <th>Update Block</th>
+                  <th>Delete Block</th>
+                  <th>Duplicate Block</th>
+                  <th>Export Block</th>
+                  <th>Select Members</th>
+                  <th>Assign Members</th>
+                  <th>View Events</th>
+                  <th>Add Events</th>
+                  <th>Update Events</th>
+                  <th>Delete Events</th>
+                  <th>Select Attendees</th>
+                  <th>Select Locations</th>
+                  <th>Delete Events Limited</th>
+                  <th>Update Events Limited</th>
+                  <th>Select Attendees Limited</th>
+                  <th>Select Locations Limited</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+            {% if roles is defined and roles|length > 0 %}
+                {% for role in roles %}
+                <tr>
+                  <td>{{ role.id }}</td>
+                  <td>{{ role.title }}</td>
+                  <td>{{ role.view_block | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.update_block | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.delete_block | replace("True","&#10004;" | safe) | replace("False","")  }}</td>
+                  <td>{{ role.duplicate_block | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.export_block | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.select_members | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.assign_members | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.view_events | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.add_events | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.update_events | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.delete_events | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.select_attendees | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.select_locations | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.update_events_limited | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.delete_events_limited | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.select_attendees_limited | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                  <td>{{ role.select_locations_limited | replace("True","&#10004;" | safe) | replace("False","") }}</td>
+                    <td>
+                        <a class="link-naked ms-1 me-1" href="#"><i class="fa-solid fa-pen"></i></a>
+                        <a class="link-naked ms-1 me-1" data-bs-toggle="modal" data-bs-target="#delete-role-modal" onclick="" href="#"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+      </div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#block-modal"><i class="fa-solid fa-plus"></i> Add New</button>
+  </div>
+
+  <!-- Facilities -->
+  <div class="mb-5">
+    <div class="table-responsive">
+        <table class="table table-bordered caption-top table-sm shadow-sm">
+            <caption><i class="fa-solid fa-building-lock"></i> Facilities</caption>
+            <thead class="table-secondary">
+              <tr>
+                  <th>Id</th>
+                  <th>Building</th>
+                  <th>Room</th>
+                  <th>Additional Info</th>
+                  <th>Action</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white">
+            {% if facilities is defined and facilities|length > 0 %}
+                {% for facility in facilities %}
+                <tr>
+                    <td>{{ facility.id }}</td>
+                    <td>{{ facility.building }}</td>
+                    <td>{{ facility.room }}</td>
+                    <td>{{ facility.additional_info }}</td>
+                    <td>
+                        <a class="link-naked ms-1 me-1" href="#"><i class="fa-solid fa-pen"></i></a>
+                        <a class="link-naked ms-1 me-1" data-bs-toggle="modal" data-bs-target="#delete-facility-modal" onclick="" href="#"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+      </div>
+    <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#block-modal"><i class="fa-solid fa-plus"></i> Add New</button>
+  </div>
+
+</div>
+
+{% endblock %}

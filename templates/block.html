@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+{% block navbar %}{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/user/{{ user.oid }}">Block Memberships</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Block ({{ block.title }})</li>
+        </ol>
+    </nav>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message|safe }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div id="building-block-container" data-block-id="{{ block.id }}" class="container-fluid">
+    <div class="mt-3 mb-5">
+        <div class="table-responsive">
+        <table class="table table-sm table-bordered caption-top table-fixed shadow-sm">
+            <caption><i class="fas fa-cube"></i> Details</caption>
+            <tbody>
+              <tr>
+                <th class="table-secondary col-2" scope="row">Title</th>
+                <td class="bg-white">{{ block.title }}</td>
+              </tr>
+              <tr>
+                <th class="table-secondary" scope="row">Semester</th>
+                <td class="bg-white">{{ block.season }} {{ block.year }}</td>
+              </tr>
+              <tr>
+                <th class="table-secondary" scope="row">Additional Info</th>
+                <td class="bg-white"><div>{{ block.additional_info|safe }}</div></td>
+              </tr>
+              <tr>
+                <th class="table-secondary" scope="row">Date Created</th>
+                <td class="bg-white">{{ block.date_created }}</td>
+              </tr>
+              <tr>
+                <th class="table-secondary" scope="row">Created By</th>
+                <td class="bg-white">{{ block.created_by }}</td>
+              </tr>
+              <tr>
+                <th class="table-secondary" scope="row">Last Modified</th>
+                <td class="bg-white">{{ block.date_modified }}</td>
+              </tr>
+              <tr>
+                <th class="table-secondary" scope="row">Modified By</th>
+                <td class="bg-white">{{ block.modified_by }}</td>
+              </tr>
+            </tbody>
+        </table>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Options
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#block-modal" href="#">Edit</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delete-block-modal" href="#">Delete</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#duplicate-block-modal" href="#">Duplicate</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Export...</a></li>
+            </ul>
+        </div>
+    </div>
+    {% include 'block-modal.html' %}
+    {% include 'delete-block-modal.html' %}
+    {% include 'duplicate-block-modal.html' %}
+
+    <!-- Block Members -->
+    <div class="mb-5">
+        <div class="table-responsive">
+        <table class="table table-bordered caption-top table-sm shadow-sm">
+            <caption><i class="fa-solid fa-users"></i> Members</caption>
+            <thead class="table-secondary">
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th class="col-1">Initials</th>
+                <th class="col-2">Type</th>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody class="bg-white">
+            {% if block.members is defined and block.members|length > 0 %}
+            {% for member in block.members %}
+            <tr>
+                <td>{{ member.first_name }}</td>
+                <td>{{ member.last_name }}</td>
+                <td>{{ member.email }}</td>
+                <td>{{ member.initials }}</td>
+                <td>{{ member.type }}</td>
+                <td>Participant <a class="link-naked ms-1" data-bs-toggle="modal" data-bs-target="#assign-members-modal" data-member-id="{{ user.oid }}" data-member-name="{{ member.last_name }}, {{ member.first_name }}" data-member-email="{{ member.email }}" data-member-initials="{{ member.initials }}" data-member-type="{{ member.type }}" data-member-role="Owner" href="#" onclick="initAssignMemberModal(this)"><i class="fa-solid fa-pen"></i></a></td>
+              </tr>
+            {% endfor %}
+            {% else %}
+            <tr>
+                <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+            </tr>
+            {% endif %}
+            </tbody>
+        </table>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#members-modal"><i class="fa-solid fa-list-check"></i> Select</button>
+    </div>
+    {% include 'members-modal.html' %}
+    {% include 'assign-members-modal.html' %}
+
+        <!-- Block Collaboratorss -->
+        <div class="mb-5">
+          <div class="table-responsive">
+          <table class="table table-bordered caption-top table-sm shadow-sm">
+              <caption><i class="fa-solid fa-users-line"></i> Collaborators</caption>
+              <thead class="table-secondary">
+              <tr>
+                  <th>First Name</th>
+                  <th>Last Name</th>
+                  <th>Email</th>
+                  <th class="col-1">Initials</th>
+                  <th class="col-2">Notes</th>
+                  <th>Remove</th>
+              </tr>
+              </thead>
+              <tbody class="bg-white">
+              {% if collaborators is defined and collaborators|length > 0 %}
+              {% for collaborator in collaborators %}
+              <tr>
+                  <td>{{ collaborator.first_name }}</td>
+                  <td>{{ collaborator.last_name }}</td>
+                  <td>{{ collaborator.email }}</td>
+                  <td>{{ collaborator.initials }}</td>
+                  <td>{{ collaborator.notes }}</td>
+                  <td><a class="link-naked ms-1" data-bs-toggle="modal" data-bs-target="#delete-collaborator-modal" data-collaborator-id="{{ collaborator.id }}" data-collaborator-name="{{ collaborator.last_name }}, {{ collaborator.first_name }}" data-collaborator-email="{{ collaborator.email }}" data-collaborator-initials="{{ collaborator.initials }}" data-collaborator-notes="{{ collaborator.notes }}" href="#" onclick="initDeleteCollaboratorModal(this)"><i class="fa-solid fa-trash-can"></i></a></td>
+                </tr>
+              {% endfor %}
+              {% else %}
+              <tr>
+                  <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+              </tr>
+              {% endif %}
+              </tbody>
+          </table>
+          </div>
+          <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#add-collaborator-modal"><i class="fa-solid fa-plus"></i> Add New</button>
+      </div>
+      {% include 'add-collaborator-modal.html' %}
+      {% include 'delete-collaborator-modal.html' %}
+
+    <!-- Block Events -->
+    <div class="mb-5">
+        <div class="table-responsive">
+            <table class="table table-bordered caption-top table-sm shadow-sm">
+                <caption><i class="fa-solid fa-calendar-days"></i> Events</caption>
+                <thead class="table-secondary">
+                <tr>
+                    <th>Date</th>
+                    <th>Day of Week</th>
+                    <th>Time</th>
+                    <th>Format</th>
+                    <th>Topic</th>
+                    <th>Attendees</th>
+                    <th>Locations</th>
+                    <th>Notes</th>
+                    <th>Attendance</th>
+                </tr>
+                </thead>
+                <tbody class="bg-white">
+                {% if block.events is defined and block.events|length > 0 %}
+                {% for event in block.events %}
+                    <tr class="clickable" onclick="eventSelect('{{ user.oid }}', '{{ block.id }}', '{{ event.id }}')">
+                      <td>{{ event.date }}</td>
+                      <td>{{ event.day }}</td>
+                      <td>{{ event.start_time }} - {{ event.end_time }}</td>
+                      <td>{{ event.format }}</td>
+                      <td>{{ event.topic }}</td>
+                      <td>
+                        {% if event.attendees is defined and event.attendees|length > 0 %}
+                        {% for attendee in event.attendees %}
+                          {{ attendee.first_name}} {{ attendee.last_name}}{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                        {% endif %}
+                      </td>
+                      <td>
+                        {% if event.locations is defined and event.locations|length > 0 %}
+                        {% for location in event.locations %}
+                          {{ location.building}} {{ location.room}}{% if not loop.last %}, {% endif %}
+                        {% endfor %}
+                        {% endif %}
+                      </td>
+                      <td>{{ event.notes }}</td>
+                      <td>{{ event.attendance }}</td>
+                    </tr>
+                {% endfor %}
+                {% else %}
+                <tr>
+                    <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#event-modal"><i class="fa-solid fa-plus"></i> Add New</button>
+    </div>
+
+    <!-- Events Modal -->
+    {% include 'event-modal.html' %}
+</div>
+{% endblock %}

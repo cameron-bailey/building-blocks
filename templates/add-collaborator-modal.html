@@ -1,0 +1,39 @@
+<div class="modal fade" id="add-collaborator-modal" tabindex="-1" aria-labelledby="add-collaborator-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="/user/{{ user.oid }}/block/{{ block.id }}/collaborator/add" method="post">
+                {{ add_collaborator_form.hidden_tag() }}
+                <div class="modal-header bg-warning">
+                    <h5 id="block-modal-label" class="modal-title">Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="mb-3">
+                        {{ add_collaborator_form.first_name.label(class="form-label") }}
+                        {{ add_collaborator_form.first_name(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ add_collaborator_form.last_name.label(class="form-label") }}
+                        {{ add_collaborator_form.last_name(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ add_collaborator_form.email.label(class="form-label") }}
+                        {{ add_collaborator_form.email(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ add_collaborator_form.initials.label(class="form-label") }}
+                        {{ add_collaborator_form.initials(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ add_collaborator_form.notes.label(class="form-label") }}
+                        {{ add_collaborator_form.notes(class="form-control") }}
+                    </div>
+                </div>
+                <div class="modal-footer bg-dark">
+                    {{ add_collaborator_form.submit(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

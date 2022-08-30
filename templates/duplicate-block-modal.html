@@ -1,0 +1,51 @@
+<div class="modal fade" id="duplicate-block-modal" tabindex="-1" aria-labelledby="duplicate-block-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form id="duplicate-block-form" action="/user/{{ user.oid }}/block/duplicate/{{ block.id }}" method="post" enctype="multipart/form-data">
+                {{ duplicate_block_form.hidden_tag() }}
+                <div class="modal-header bg-warning">
+                    <h5 id="delete-block-modal-label" class="modal-title">Are you sure you want to duplicate this block?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    {{ duplicate_block_form.duplicate_block_id() }}
+                    <div class="table-responsive">
+                        <table class="table table-bordered caption-top table-fixed shadow-sm">
+                            <caption>Block Details</caption>
+                            <tbody>
+                              <tr>
+                                <th class="table-secondary col-2" scope="row">Title:</th>
+                                <td class="bg-white">{{ block.title }}</td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Semester:</th>
+                                <td class="bg-white">{{ block.season }} {{ block.year }}</td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Date Added:</th>
+                                <td class="bg-white">{{ block.date_added }}</td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Created By:</th>
+                                <td class="bg-white">{{ block.created_by }}</td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Last Modified:</th>
+                                <td class="bg-white">{{ block.date_modified }}</td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Modified By:</th>
+                                <td class="bg-white">{{ block.modified_by }}</td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                </div>
+                <div class="modal-footer bg-dark">
+                    {{ duplicate_block_form.duplicate_block(class="btn btn-success") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

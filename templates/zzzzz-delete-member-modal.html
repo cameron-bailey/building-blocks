@@ -1,0 +1,47 @@
+<div class="modal fade" id="delete-member-modal" tabindex="-1" aria-labelledby="delete-member-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form id="delete-member-form" action="/user/{{ user.oid }}/block/{{ block.id }}/member/delete/" method="post" enctype="multipart/form-data">
+                {{ delete_member_form.hidden_tag() }}
+                <div class="modal-header bg-warning">
+                    <h5 id="delete-member-modal-label" class="modal-title">Are you sure you want to delete this member?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    {{ delete_member_form.member_id() }}
+                    <div class="table-responsive">
+                        <table class="table table-bordered caption-top table-fixed shadow-sm">
+                            <caption>Member Details</caption>
+                            <tbody>
+                              <tr>
+                                <th class="table-secondary col-2" scope="row">First Name:</th>
+                                <td id="delete-member-first-name" class="bg-white"></td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Last Name:</th>
+                                <td id="delete-member-last-name" class="bg-white"></td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Email:</th>
+                                <td id="delete-member-email" class="bg-white"></td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Initials:</th>
+                                <td id="delete-member-initials" class="bg-white"></td>
+                              </tr>
+                              <tr>
+                                <th class="table-secondary" scope="row">Type:</th>
+                                <td id="delete-member-type" class="bg-white"></td>
+                              </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    {{ delete_member_form.delete_member(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

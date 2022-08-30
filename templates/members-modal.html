@@ -1,0 +1,20 @@
+<div class="modal fade" id="members-modal" tabindex="-1" aria-labelledby="members-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <form action="/user/{{ user.oid }}/block/{{ block.id }}/members/update" method="POST">
+        {{ members_form.hidden_tag() }}
+        <div class="modal-header bg-warning">
+            <h4 id="members-modal-label" class="modal-title">Select Members</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-light">
+            {{ members_form.members(class="table table-sm table-borderless") }}
+        </div>
+        <div class="modal-footer bg-dark">
+            {{ members_form.submit_members(class="btn btn-primary") }}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>

@@ -1,0 +1,43 @@
+<div class="modal fade" id="delete-guest-modal" tabindex="-1" aria-labelledby="delete-guest-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form id="delete-guest-form" action="" method="POST">
+            {{ delete_guest_form.hidden_tag() }}
+            <div class="modal-header bg-warning">
+                <h4 id="members-modal-label" class="modal-title">Are you sure you want to remove this guest?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light">
+                {{ delete_guest_form.guest_id() }}
+                <div class="table-responsive">
+                    <table class="table table-bordered caption-top table-fixed shadow-sm">
+                        <caption>Guest Details</caption>
+                        <tbody>
+                          <tr>
+                            <th class="table-secondary col-2" scope="row">Name</th>
+                            <td id="delete-guest-name" class="bg-white"></td>
+                          </tr>
+                          <tr>
+                            <th class="table-secondary" scope="row">Email</th>
+                            <td id="delete-guest-email" class="bg-white"></td>
+                          </tr>
+                          <tr>
+                            <th class="table-secondary" scope="row">Initials</th>
+                            <td id="delete-guest-initials" class="bg-white"></td>
+                          </tr>
+                          <tr>
+                            <th class="table-secondary" scope="row">Notes</th>
+                            <td id="delete-guest-notes" class="bg-white"></td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer bg-dark">
+                {{ delete_guest_form.submit_delete_guest(class="btn btn-danger") }}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

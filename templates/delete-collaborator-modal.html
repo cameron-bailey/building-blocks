@@ -1,0 +1,43 @@
+<div class="modal fade" id="delete-collaborator-modal" tabindex="-1" aria-labelledby="delete-collaborator-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <form id="delete-collaborator-form" action="" method="POST">
+            {{ delete_collaborator_form.hidden_tag() }}
+            <div class="modal-header bg-warning">
+                <h4 id="members-modal-label" class="modal-title">Are you sure you want to remove this collaborator?</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body bg-light">
+                {{ delete_collaborator_form.collaborator_id() }}
+                <div class="table-responsive">
+                    <table class="table table-bordered caption-top table-fixed shadow-sm">
+                        <caption>Details</caption>
+                        <tbody>
+                          <tr>
+                            <th class="table-secondary col-2" scope="row">Name</th>
+                            <td id="delete-collaborator-name" class="bg-white"></td>
+                          </tr>
+                          <tr>
+                            <th class="table-secondary" scope="row">Email</th>
+                            <td id="delete-collaborator-email" class="bg-white"></td>
+                          </tr>
+                          <tr>
+                            <th class="table-secondary" scope="row">Initials</th>
+                            <td id="delete-collaborator-initials" class="bg-white"></td>
+                          </tr>
+                          <tr>
+                            <th class="table-secondary" scope="row">Notes</th>
+                            <td id="delete-collaborator-notes" class="bg-white"></td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer bg-dark">
+                {{ delete_collaborator_form.submit_delete_collaborator(class="btn btn-danger") }}
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>

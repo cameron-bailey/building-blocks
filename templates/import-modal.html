@@ -1,0 +1,28 @@
+<div class="modal fade" id="import-modal" tabindex="-1" aria-labelledby="import-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post">
+                {{ import_form.hidden_tag() }}
+                <div class="modal-header bg-warning">
+                    <h5 id="import-modal-label" class="modal-title">Import Block</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="inputGroupFile02">
+                        <label class="input-group-text" for="inputGroupFile02">Upload</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    {{ import_form.submit_course(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="input-group mb-3">
+    <input type="file" class="form-control" id="inputGroupFile02">
+    <label class="input-group-text" for="inputGroupFile02">Upload</label>
+  </div>

@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% block head %}{% endblock %}
+{% block navbar %}
+
+{% endblock %}
+{% block body %}
+<div class="container-fluid">
+    <nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/user/{{ user.oid }}">Block Memberships</a></li>
+          <li class="breadcrumb-item"><a href="/user/{{ user.oid }}/block/{{ block.id }}">Block ({{ block.title }})</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Event ({{ event.date }}, {{ event.start_time }}-{{ event.end_time }})</li>
+        </ol>
+    </nav>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+        {{ message|safe }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<div class="container-fluid">
+  <div class="row mt-3">
+    <div class="col-md-6 mb-5">
+        <div class="table-responsive">
+            <table class="table table-bordered caption-top table-sm shadow-sm">
+                <caption><i class="fas fa-calendar-day"></i> Details</caption>
+                <tbody>
+                  <tr>
+                    <th class="table-secondary column-header col-2" scope="row">Event Date</th>
+                    <td class="bg-white">{{ event.date }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Event Time</th>
+                    <td class="bg-white">{{ event.start_time }} - {{ event.end_time }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Format</th>
+                    <td class="bg-white">{{ event.format }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Topic</th>
+                    <td class="bg-white">{{ event.topic }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Notes</th>
+                    <td class="bg-white">{{ event.notes }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Attendance</th>
+                    <td class="bg-white">{{ event.attendance }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Date Created</th>
+                    <td class="bg-white">{{ event.date_created }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Created By</th>
+                    <td class="bg-white">{{ event.created_by.last_name }}, {{ event.created_by.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Last Modified</th>
+                    <td class="bg-white">{{ event.date_modified }}</td>
+                  </tr>
+                  <tr>
+                    <th class="table-secondary" scope="row">Modified By</th>
+                    <td class="bg-white">{{ event.modified_by.last_name }}, {{ event.modified_by.first_name }}</td>
+                  </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Options
+            </button>
+            <ul class="dropdown-menu">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#event-modal" href="#">Edit</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#delete-event-modal"href="#">Delete</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Event Locations -->
+    <div class="col-md-6 mb-5">
+      <div class="table-responsive">
+          <table class="table table-bordered caption-top table-sm shadow-sm">
+              <caption><i class="fa-solid fa-location-dot"></i> Locations</caption>
+              <thead class="table-secondary">
+                  <tr>
+                      <th>Building</th>
+                      <th>Room</th>
+                      <th>Additional Info</th>
+                  </tr>
+              </thead>
+              <tbody class="bg-white">
+                  {% if event.locations is defined and event.locations|length > 0 %}
+                  {% for location in event.locations %}
+                  <tr>
+                      <td>{{ location.building }}</td>
+                      <td>{{ location.room }}</td>
+                      <td>{{ location.additional_info }}</td>
+                  </tr>
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                      <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                  </tr>
+                  {% endif %}
+              </tbody>
+          </table>
+      </div>
+      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#locations-modal"><i class="fa-solid fa-list-check"></i> Select</button>
+    </div>
+  </div>
+
+
+    <!-- Event Attendees -->
+  <div class="row">
+    <div class="col-md-6 mb-5">
+      <div class="table-responsive">
+        <table class="table table-bordered caption-top table-sm shadow-sm">
+          <caption><i class="fas fa-clipboard-user"></i> Attendees</caption>
+            <thead class="table-secondary">
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Initials</th>
+                <th>Type</th>
+              </tr>
+              </thead>
+              <tbody class="bg-white">
+                  {% if event.attendees is defined and event.attendees|length > 0 %}
+                  {% for attendee in event.attendees %}
+                  <tr>
+                      <td>{{ attendee.first_name }}</td>
+                      <td>{{ attendee.last_name }}</td>
+                      <td>{{ attendee.email }}</td>
+                      <td>{{ attendee.initials }}</td>
+                      <td>{{ attendee.type }}</td>
+                  </tr>
+                  {% endfor %}
+                  {% else %}
+                  <tr>
+                      <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                  </tr>
+                  {% endif %}
+              </tbody>
+            </table>
+          </div>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendees-modal"><i class="fa-solid fa-list-check"></i> Select</button>
+      </div>
+
+
+      <div class="col-md-6 mb-5">
+        <div class="table-responsive">
+            <table class="table table-bordered caption-top table-sm shadow-sm">
+                <caption><i class="fas fa-clipboard-user"></i> Guests</caption>
+                <thead class="table-secondary">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Initials</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    {% if event.attendees is defined and event.attendees|length > 0 %}
+                    {% for attendee in event.attendees %}
+                    <tr>
+                        <td>{{ attendee.first_name }}</td>
+                        <td>{{ attendee.last_name }}</td>
+                        <td>{{ attendee.email }}</td>
+                        <td>{{ attendee.initials }}</td>
+                        <td>{{ attendee.type }}</td>
+                    </tr>
+                    {% endfor %}
+                    {% else %}
+                    <tr>
+                        <td colspan="100"><div class="no-data-display">No data to display.</div></td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#attendees-modal"><i class="fa-solid fa-list-check"></i> Select</button>
+    </div>
+
+
+
+  </div>
+
+</div>
+    
+
+</div>
+
+{% include 'attendees-modal.html' %}
+{% include 'locations-modal.html' %}
+{% include 'event-modal.html' %}
+{% include 'delete-event-modal.html' %}
+
+{% endblock %}

@@ -1,0 +1,20 @@
+<div class="modal fade" id="attendees-modal" tabindex="-1" aria-labelledby="attendees-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+    <div class="modal-content">
+    <form action="/user/{{ user.oid }}/block/{{ block.id }}/event/{{ event.id }}/attendees/update" method="POST">
+        {{ attendees_form.hidden_tag() }}
+        <div class="modal-header bg-warning">
+            <h4 id="attendees-modal-label" class="modal-title">Select Attendees</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-light">
+            {{ attendees_form.attendees(class="table table-sm table-borderless") }}
+        </div>
+        <div class="modal-footer bg-dark">
+            {{ attendees_form.submit_attendees(class="btn btn-primary") }}
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+    </form>
+    </div>
+    </div>
+</div>

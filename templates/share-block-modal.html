@@ -1,0 +1,27 @@
+<div class="modal fade" id="share-block-modal" tabindex="-1" aria-labelledby="share-block-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <form action="/user/{{ user.oid }}/block/{{ block.id }}/permissions/add" method="post">
+        {{ add_member_form.hidden_tag() }}
+        <div class="modal-header bg-warning">
+          <h4 id="share-block-modal-label" class="modal-title">Search for user to add new member.</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-light">
+          <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+              <input id="userToCheck" type="text" class="form-control" placeholder="Search by name or email" name="search" oninput="searchUsers()">
+          </div>
+          <ul id="user-search-results" class="list-group"></ul>
+          <hr>
+          <div id="selectedUser"></div>
+          {{ add_member_form.user_email() }}
+        </div>
+        <div class="modal-footer bg-dark">
+        {{ add_member_form.submit_member(class="btn btn-primary") }}
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+    </div>
+</div>

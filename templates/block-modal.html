@@ -1,0 +1,39 @@
+<div class="modal fade" id="block-modal" tabindex="-1" aria-labelledby="block-modal-label" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <form action="{{ block_action_url }}" method="post">
+                {{ block_form.hidden_tag() }}
+                <div class="modal-header bg-warning">
+                    <h5 id="block-modal-label" class="modal-title">Block Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body bg-light">
+                    <div class="mb-3">
+                        {{ block_form.title.label(class="form-label") }}
+                        {{ block_form.title(class="form-control") }}
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6">
+                            {{ block_form.season.label(class="form-label") }}
+                            {{ block_form.season(class="form-select") }}
+                        </div>
+                        <div class="col-6">
+                            {{ block_form.year.label(class="form-label") }}
+                            {{ block_form.year(class="form-select") }}
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        {{ ckeditor.load() }}
+                        {{ ckeditor.config(name='additional_info') }}
+                        {{ block_form.additional_info.label(class="form-label") }}
+                        {{ block_form.additional_info(class="form-control", rows="5") }}
+                    </div>
+                </div>
+                <div class="modal-footer bg-dark">
+                    {{ block_form.submit_block(class="btn btn-primary") }}
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
